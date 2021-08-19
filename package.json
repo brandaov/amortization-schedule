@@ -1,0 +1,32 @@
+{
+  "name": "amortization-schedule",
+  "version": "1.0.0",
+  "description": "TABELA PRICE API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test37",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandaov/amortization-schedule.git"
+  },
+  "keywords": [
+    "amortization",
+    "schedule",
+    "PRICE"
+  ],
+  "author": "Victor Brandão",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brandaov/amortization-schedule/issues"
+  },
+  "homepage": "https://github.com/brandaov/amortization-schedule#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.7"
+  }
+}
