@@ -4,9 +4,20 @@ var Schema = mongoose.Schema;
 
 
 var TableSchema = new Schema({
-  name: {
-    type: String,
-    required: 'Kindly enter the name of the Table'
+  pv: {
+    type: Number,
+    required: 'Entre com o valor de financiamento'
+  },
+  tax: {
+    type: Number,
+    required: 'Entre com o valor da taxa de juros'
+  },
+  n_periodo: {
+    type: Number,
+    required: 'Entre com o período em meses'
+  },
+  pmt: {
+    type: Number
   },
   Created_date: {
     type: Date,
