@@ -14,7 +14,8 @@ exports.list_all_tables = function(req, res) {
 
 
 exports.create_a_table = function(req, res) {
-  var new_table = new Table(req.body);
+  const new_table = new Table(req.body);
+  console.log(req.body);
   new_table.save(function(err, table) {
     if (err)
       res.send(err);
@@ -42,8 +43,6 @@ exports.update_a_table = function(req, res) {
 
 
 exports.delete_a_table = function(req, res) {
-
-
   Table.remove({
     _id: req.params.tableId
   }, function(err, table) {

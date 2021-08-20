@@ -8,7 +8,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 - [x] Criar e gerenciar tabelas PRICE
 - [x] API funcional
-- [x] Banco de dados MONGO DB
+- [x] Banco de dados MongoDB
 - [ ] Aprimorar UI
 - [ ] Capacidade de alterar taxas e períodos mensais para anuais
 
@@ -16,8 +16,8 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-* Você instalou a versão mais recente de `Node.js` e `MONGODB`.
-* Você tem uma máquina `<Windows>`. **O projeto não foi testado para Ubuntu** porém deve funcionar normalmente 😅
+* Você instalou a versão mais recente de `Node.js` e `MongoDB`.
+* Você tem uma máquina `Windows`. **O projeto não foi testado para Ubuntu** porém deve funcionar normalmente 😅
 
 ## 🚀 Instalando amortization-schedule
 
@@ -25,8 +25,15 @@ Para instalar o amortization-schedule, siga estas etapas:
 
 Windows:
 ```
+Run MongoDB:
+mongod --dbpath 'C:\Program Files\MongoDB\Server\5.0\data\db'
 
+Tenha certeza de que os diretórios '\data\' e '\logs\' tenham permissões de acesso completa. 
+```
 
+```
+Run Server:
+node src\server.js 
 ```
 
 ## ☕ Usando amortization-schedule

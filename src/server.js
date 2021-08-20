@@ -2,19 +2,18 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  Table = require('./api/models/createTableModel'), //created model loading here
-  bodyParser = require('body-parser');
+  Table = require('../api/models/createTableModel'); //created model loading here
   
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Tabledb'); 
+mongoose.connect('mongodb://localhost/Tabledb', { useNewUrlParser: true }); 
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
-var routes = require('./api/routes/createTableRoutes'); //importing route
+var routes = require('../api/routes/createTableRoutes'); //importing route
 routes(app); //register the route
 
 app.listen(port);
@@ -31,10 +30,6 @@ pv = 120000;
 function getUserInput(){
 }
 
-function calculaParcela2(){
-  return (tax*pv)/(1-1/Math.pow(1+tax, n_periodo));
-}
-
 function calculaParcela(){
   return pv*(tax*Math.pow(1+tax, n_periodo))/(Math.pow(1+tax, n_periodo)-1);
 }
@@ -42,7 +37,4 @@ function calculaParcela(){
 function main(){
   pmt = calculaParcela();
   console.log(pmt);
-  console.log()
 }
-
-main();
