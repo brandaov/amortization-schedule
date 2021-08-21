@@ -58,7 +58,7 @@ exports.renegotiate_a_table = function (req, res) {
     function (err, table) {
       var schedule = renegotiate(table, req.body.adjust_month - 1);
       console.log(schedule);
-      /*  table.pv = schedule.pv;
+      table.pv = schedule.pv;
       table.n_periodo = schedule.n;
       table.pmt = schedule.pmt;
       table.tax = schedule.tax;
@@ -67,7 +67,7 @@ exports.renegotiate_a_table = function (req, res) {
       table.amort = schedule.amort;
 
       if (err) res.send(err);
-      res.json(table); */
+      res.json(table); 
     }
   );
 };
