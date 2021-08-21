@@ -10,6 +10,6 @@ module.exports = function(app) {
 
   app.route('/tables/:tableId')
     .get(amortizationSchedule.read_a_table)
-    .put(amortizationSchedule.update_a_table)
+    .put(amortizationSchedule.renegotiate_a_table)
     .delete(amortizationSchedule.delete_a_table);
 };
