@@ -1,8 +1,8 @@
 "use strict";
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var TableSchema = new Schema({
+const TableSchema = new Schema({
   pv: {
     type: Number,
     required: "Entre com o valor de financiamento",

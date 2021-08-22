@@ -1,7 +1,7 @@
 "use strict";
 
 var mongoose = require("mongoose"),
-  Table = mongoose.model("Tables"); // carregamento do modelo criado aqui
+  Table = require("../models/amortizationScheduleModel"); // carregamento do modelo criado aqui
 
 exports.list_all_tables = function (req, res) {
   Table.find({}, function (err, table) {
@@ -43,20 +43,21 @@ exports.read_a_table = function (req, res) {
 };
 
 exports.renegotiate_a_table = function (req, res) {
-  Table.findOneAndUpdate(
-    { _id: req.params.tableId },
-    req.body,
-    { new: true },
-    function (err, table) {
-      var schedule = renegotiate(table, req.body.adjust_month - 1);
-      console.log(schedule);
-      table.pv = schedule.pv;
-      table.n_periodo = schedule.n;
-      table.tax = schedule.tax;
-      table.parcela = schedule.parcela;
-
-      if (err) res.send(err);
-      res.json(table);
+  Table.findById(req.params.tableId, function (err, table) {
+    if(err) throw "Cant find schedule by given id" 
+  }).then(
+    (oldSchedule) => {
+      console.log(oldSchedule);
+     Table.updateOne(
+        { _id: req.params.tableId },
+        renegotiate(oldSchedule, req.body.adjust_month - 1),
+        { new: true },
+        function (err, table) {
+          if (err) res.send(err);
+          res.json("Schedule successfully updated");
+        }
+      );
+       
     }
   );
 };
