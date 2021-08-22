@@ -52,11 +52,8 @@ exports.renegotiate_a_table = function (req, res) {
       console.log(schedule);
       table.pv = schedule.pv;
       table.n_periodo = schedule.n;
-      table.pmt = schedule.pmt;
       table.tax = schedule.tax;
-      table.saldo = schedule.saldo;
-      table.juros = schedule.juros;
-      table.amort = schedule.amort;
+      table.parcela = schedule.parcela;
 
       if (err) res.send(err);
       res.json(table);
@@ -82,9 +79,8 @@ function calculateSchedule(pv, n, tax) {
     tax = tax / 100; //conversão % para decimal
 
     //calcula pmt (valor constante no tempo)
-    var pmt =
-      (pv * (tax * Math.pow(1 + tax, n))) /
-      (Math.pow(1 + tax, n) - 1).toFixed(2);
+    var pmt = (pv * (tax * Math.pow(1 + tax, n))) / (Math.pow(1 + tax, n) - 1);
+    pmt = pmt.toFixed(2);
   } catch {
     throw "Erro ao calcular parcela";
   }
@@ -109,30 +105,25 @@ function calculateSchedule(pv, n, tax) {
       amort = pmt - juros;
       saldo = saldo - amort;
     }
-    parcelas[parcelas.length-1].saldo = 0;
+    parcelas[parcelas.length - 1].saldo = 0;
   } catch {
     throw "Erro ao calcular saldo devedor/amortização/juros";
   }
-
-  console.log(parcelas);
 
   return parcelas;
 }
 
 function renegotiate(old, m) {
   //  realiza a renegociação do financiamento
-  var pv = old.saldo[m],
+  var pv = old.parcela[m].saldo,
     n = old.n_periodo,
     tax = old.tax;
-  var partialSchedule = calculateSchedule(pv, n, tax);
+  var parcela = calculateSchedule(pv, n, tax);
 
   return {
     pv,
     n,
     tax,
-    pmt: partialSchedule.pmt,
-    saldo: partialSchedule.saldo,
-    juros: partialSchedule.juros,
-    amort: partialSchedule.amort,
+    parcela,
   };
 }
