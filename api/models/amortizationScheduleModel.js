@@ -15,18 +15,17 @@ var TableSchema = new Schema({
     type: Number,
     required: "Entre com o período em meses",
   },
-  pmt: {
-    type: Number,
-  },
-  saldo: {
-    type: Array,
-  },
-  juros: {
-    type: Array,
-  },
-  amort: {
-    type: Array,
-  },
+
+  parcela: [
+    {
+      mes: Number,
+      pmt: Number,
+      saldo: Number,
+      juros: Number,
+      amort: Number,
+    },
+  ],
+
   Created_date: {
     type: Date,
     default: Date.now,

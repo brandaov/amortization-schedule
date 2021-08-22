@@ -18,4 +18,4 @@ routes(app); //register the route
 
 app.listen(port);
 
-console.log('Amortization schedule RESTful API server started on: ' + port);
+console.log('Amortization-Schedule RESTful API server started on: ' + port);

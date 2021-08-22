@@ -1,7 +1,7 @@
 "use strict";
 
 var mongoose = require("mongoose"),
-  Table = mongoose.model("Tables");
+  Table = mongoose.model("Tables"); // carregamento do modelo criado aqui
 
 exports.list_all_tables = function (req, res) {
   Table.find({}, function (err, table) {
@@ -12,9 +12,7 @@ exports.list_all_tables = function (req, res) {
 
 exports.create_a_table = function (req, res) {
   var n, tax, pv;
-  var pmt;
 
-  //calcula pmt (valor constante no tempo)
   if (req.body.n_periodo && req.body.tax && req.body.pv) {
     n = req.body.n_periodo;
     tax = req.body.tax;
@@ -23,17 +21,11 @@ exports.create_a_table = function (req, res) {
     throw "Entre com um valor valído para a taxa, numero de meses e valor do financiamento";
   }
 
-  //console.log({ ...req.body, pmt, saldo, juros, amort });
-  //calculateSchedule()
-
-  var schedule = calculateSchedule(pv, n, tax);
+  var parcela = calculateSchedule(pv, n, tax);
 
   const new_table = new Table({
     ...req.body,
-    pmt: schedule.pmt,
-    saldo: schedule.saldo,
-    juros: schedule.juros,
-    amort: schedule.amort,
+    parcela: parcela,
   });
 
   new_table.save(function (err, table) {
@@ -67,7 +59,7 @@ exports.renegotiate_a_table = function (req, res) {
       table.amort = schedule.amort;
 
       if (err) res.send(err);
-      res.json(table); 
+      res.json(table);
     }
   );
 };
@@ -87,33 +79,48 @@ exports.delete_a_table = function (req, res) {
 
 function calculateSchedule(pv, n, tax) {
   try {
-    tax = tax/100;
-    var pmt = (pv * (tax * Math.pow(1 + tax, n))) / (Math.pow(1 + tax, n) - 1);
-    console.log(pmt);
+    tax = tax / 100; //conversão % para decimal
+
+    //calcula pmt (valor constante no tempo)
+    var pmt =
+      (pv * (tax * Math.pow(1 + tax, n))) /
+      (Math.pow(1 + tax, n) - 1).toFixed(2);
   } catch {
     throw "Erro ao calcular parcela";
   }
   try {
-    //calcula vetores de amortização, juros e saldo que variam no tempo
-    var juros = [pv * tax]; //inicializa juros e saldo no primeiro mês
-    var amort = [pmt - juros[0]]; //inicializa amortização no primeiro mês
-    var saldo = [pv - amort[0]];
+    //calcula parcelas de amortização, juros e saldo que variam no tempo
+    var juros = pv * tax; //inicializa juros no primeiro mês
+    var amort = pmt - juros; //inicializa amortização no primeiro mês
+    var saldo = pv - amort;
 
-    for (var i = 1; i < n; i++) {
-      juros[i] = saldo[i - 1] * tax;
-      amort[i] = pmt - juros[i];
-      saldo[i] = saldo[i - 1] - amort[i];
+    var parcelas = [];
+
+    for (var i = 1; i <= n; i++) {
+      parcelas.push({
+        mes: i,
+        pmt: pmt,
+        saldo: saldo.toFixed(2),
+        juros: juros.toFixed(2),
+        amort: amort.toFixed(2),
+      });
+
+      juros = saldo * tax;
+      amort = pmt - juros;
+      saldo = saldo - amort;
     }
-
-    saldo[saldo.length - 1] = 0;
+    parcelas[parcelas.length-1].saldo = 0;
   } catch {
     throw "Erro ao calcular saldo devedor/amortização/juros";
   }
 
-  return { pmt, saldo, juros, amort };
+  console.log(parcelas);
+
+  return parcelas;
 }
 
 function renegotiate(old, m) {
+  //  realiza a renegociação do financiamento
   var pv = old.saldo[m],
     n = old.n_periodo,
     tax = old.tax;
