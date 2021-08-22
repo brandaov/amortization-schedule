@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "60be736f-f6fa-4be0-851f-56c4fa56ff54",
+		"name": "amortization-schedule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all tables stored",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/schedules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"schedules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new amortization schedule table",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pv",
+							"value": "1000",
+							"description": "($) Valor financiado ",
+							"type": "text"
+						},
+						{
+							"key": "n_periodo",
+							"value": "10",
+							"description": "meses",
+							"type": "text"
+						},
+						{
+							"key": "tax",
+							"value": "10",
+							"description": "% a.m.",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/tables",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tables"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete table",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/tables/612268ff12f3201384ef0d0b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tables",
+						"612268ff12f3201384ef0d0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Renegotiate schedule",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "adjust_month",
+							"value": "4",
+							"description": "Mês da parcela que o cliente não conseguiu pagar a ser reajustada",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/schedules/6122a5af89131d3bac428de5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"schedules",
+						"6122a5af89131d3bac428de5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
