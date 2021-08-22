@@ -28,13 +28,45 @@ Windows:
 Run MongoDB:
 mongod --dbpath 'C:\Program Files\MongoDB\Server\5.0\data\db'
 
-Tenha certeza de que os diretórios 'C:\Program Files\MongoDB\Server\5.0\data\' e 'C:\Program Files\MongoDB\Server\5.0\logs\' tenham permissões de acesso completas. 
+Tenha certeza de que os diretórios 'C:\Program Files\MongoDB\Server\5.0\data\' e 
+'C:\Program Files\MongoDB\Server\5.0\logs\' tenham permissões de acesso completas. 
 ```
 
 ```
 Run Server:
 node src\server.js 
 
+```
+
+Para testar as rotas, utilize o arquivo amortization-schedule.postman_collection.json
+e carregue-o no POSTMAN.
+
+Rotas:
+```
+GET: http://localhost:3000/schedules
+// retorna todos os Schedules criados
+```
+```
+POST: http://localhost:3000/schedules
+// Cria um novo Schedule com base nos atributos 
+  1. pv => valor de financiamento ($)
+  2. n_periodo => numero de parcelas a serem divididas (meses)
+  3. tax => taxa de juros (%)
+```
+```
+DELETE: http://localhost:3000/schedules/:id
+// Deleta um Schedule por ID
+
+exemplo de <:id> = <6122a74f92c4b73ad85dde43>
+```
+```
+PUT: http://localhost:3000/schedules/:id
+
+ Renegocia um Schedule existente com base no numero de um mês, 
+ passado pelo body da requisição, que o cliente não conseguiu
+ pagar e o atualiza com os novos valores
+
+exemplo de <:id> = <6122a74f92c4b73ad85dde43>
 ```
 
 ## 📫 Contribuindo para amortization-schedule
@@ -47,7 +79,8 @@ Para contribuir com amortization-schedule, siga estas etapas:
 4. Envie para o branch original: `git push origin amortization-schedule / <local>`
 5. Crie a solicitação de pull.
 
-Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull]
+(https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
 ## 🤝 Colaboradores
 
