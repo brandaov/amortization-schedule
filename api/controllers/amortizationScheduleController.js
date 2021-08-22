@@ -1,16 +1,16 @@
 "use strict";
 
 var mongoose = require("mongoose"),
-  Table = require("../models/amortizationScheduleModel"); // carregamento do modelo criado aqui
+  Schedule = require("../models/amortizationScheduleModel"); // carregamento do modelo criado aqui
 
-exports.list_all_tables = function (req, res) {
-  Table.find({}, function (err, table) {
+exports.list_all_schedules = function (req, res) {
+  Schedule.find({}, function (err, schedule) {
     if (err) res.send(err);
-    res.json(table);
+    res.json(schedule);
   });
 };
 
-exports.create_a_table = function (req, res) {
+exports.create_a_schedule = function (req, res) {
   var n, tax, pv;
 
   if (req.body.n_periodo && req.body.tax && req.body.pv) {
@@ -23,36 +23,36 @@ exports.create_a_table = function (req, res) {
 
   var parcela = calculateSchedule(pv, n, tax);
 
-  const new_table = new Table({
+  const new_schedule = new Schedule({
     ...req.body,
     parcela: parcela,
   });
 
-  new_table.save(function (err, table) {
+  new_schedule.save(function (err, schedule) {
     if (err) res.send(err);
-    res.json(table);
+    res.json(schedule);
   });
 };
 
-exports.read_a_table = function (req, res) {
-  Table.findById(req.params.tableId, function (err, table) {
-    console.log(table);
+exports.read_a_schedule = function (req, res) {
+  Schedule.findById(req.params.scheduleId, function (err, schedule) {
+    console.log(schedule);
     if (err) res.send(err);
-    res.json(table);
+    res.json(schedule);
   });
 };
 
-exports.renegotiate_a_table = function (req, res) {
-  Table.findById(req.params.tableId, function (err, table) {
+exports.renegotiate_a_schedule = function (req, res) {
+  Schedule.findById(req.params.scheduleId, function (err, schedule) {
     if(err) throw "Cant find schedule by given id" 
   }).then(
     (oldSchedule) => {
       console.log(oldSchedule);
-     Table.updateOne(
-        { _id: req.params.tableId },
+     Schedule.updateOne(
+        { _id: req.params.scheduleId },
         renegotiate(oldSchedule, req.body.adjust_month - 1),
         { new: true },
-        function (err, table) {
+        function (err, schedule) {
           if (err) res.send(err);
           res.json("Schedule successfully updated");
         }
@@ -62,15 +62,15 @@ exports.renegotiate_a_table = function (req, res) {
   );
 };
 
-exports.delete_a_table = function (req, res) {
-  console.log(req.params.tableId);
-  Table.remove(
+exports.delete_a_schedule = function (req, res) {
+  console.log(req.params.scheduleId);
+  Schedule.remove(
     {
-      _id: req.params.tableId,
+      _id: req.params.scheduleId,
     },
-    function (err, table) {
+    function (err, schedule) {
       if (err) res.send(err);
-      res.json({ message: "Table successfully deleted" });
+      res.json({ message: "Schedule successfully deleted" });
     }
   );
 };

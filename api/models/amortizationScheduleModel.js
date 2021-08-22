@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TableSchema = new Schema({
+const ScheduleSchema = new Schema({
   pv: {
     type: Number,
     required: "Entre com o valor de financiamento",
@@ -32,4 +32,4 @@ const TableSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Tables", TableSchema);
+module.exports = mongoose.model("Schedules", ScheduleSchema);
